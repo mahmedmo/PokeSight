@@ -28,7 +28,7 @@ Poké Sight leverages a powerful predictive model built from extensive Pokémon 
 
 ## Getting Started
 
-1. Visit the Poké Sight app: link.com.
+1. Visit the Poké Sight website: [www.pokesight.cc](https://www.pokesight.cc)
 2. Enter two Pokémon names.
 3. Hit the **"Fight!"** button.
 4. Watch as Poké Sight reveals your winner and battle probabilities!
