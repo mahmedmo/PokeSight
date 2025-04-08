@@ -32,6 +32,7 @@ body {
 	height: 100%;
 	object-fit: cover;
 	z-index: -2;
+	pointer-events: none;
 }
 
 body::before {
@@ -66,18 +67,21 @@ input.disabled-input:hover {
 	margin-top: 5px;
 	text-align: center;
 	margin-right: 10px;
+	pointer-events: none;
 }
 
 .predict-info-icon {
 	vertical-align: middle;
 	width: 20px;
 	display: inline-block;
+	margin-right: 8px;
 }
 
 .predict-info-text {
 	vertical-align: middle;
 	font-size: 0.8rem;
 	font-weight: 500;
+	color: #bbb;
 }
 
 .predict-info-card {
@@ -111,7 +115,14 @@ input.disabled-input:hover {
 	margin: 0 auto 5px;
 }
 
-.predict-info-container:hover .predict-info-card {
+.predict-info-trigger {
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	pointer-events: auto;
+}
+
+.predict-info-trigger:hover + .predict-info-card {
 	opacity: 1;
 	visibility: visible;
 }
@@ -289,7 +300,7 @@ input.disabled-input:hover {
 
 .pokemon-inputs input:disabled,
 .pokemon-inputs input.disabled-input {
-	filter: brightness(0.3)
+	filter: brightness(0.3);
 }
 
 .btn-disabled {
@@ -354,8 +365,9 @@ input.disabled-input:hover {
 	margin: 20px 0;
 }
 
-#predict-btn{
-	text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+#predict-btn {
+	text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
+		2px 2px 0 #000;
 }
 
 .submit-btn {
@@ -364,7 +376,7 @@ input.disabled-input:hover {
 	border: none;
 	border-radius: 30px;
 	background-color: #e60012;
-    font-family: "PokemonClassic", Arial, sans-serif;
+	font-family: "PokemonClassic", Arial, sans-serif;
 	color: #fff;
 	cursor: pointer;
 	transition: background-color 0.3s, transform 0.2s;
@@ -396,8 +408,12 @@ input.disabled-input:hover {
 }
 
 @keyframes fadeOut {
-	from { opacity: 1; }
-	to   { opacity: 0; }
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
 }
 
 .clear-fade-out {
@@ -455,17 +471,23 @@ input.disabled-input:hover {
 	font-weight: bold;
 	text-transform: uppercase;
 	color: #fff;
-	text-shadow: -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 4px 4px 0 #000;
+	text-shadow: -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000,
+		4px 4px 0 #000;
 	font-family: "PokemonClassic", Arial, sans-serif;
-	animation: none;
 	padding: 10px 20px;
 	box-sizing: border-box;
 }
 
 @keyframes pulse {
-	0% { transform: scale(1); }
-	50% { transform: scale(1.1); }
-	100% { transform: scale(1); }
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 
 .pulse-animation {
@@ -522,17 +544,6 @@ input.disabled-input:hover {
 	animation: popout 0.3s ease-out;
 }
 
-@media (max-width: 768px) {
-	.pokemon-inputs {
-		flex-direction: column;
-		gap: 20px;
-	}
-	.pokemon-boxes {
-		flex-direction: column;
-		gap: 30px;
-	}
-}
-
 @keyframes fadeInputOut {
 	0% {
 		opacity: 1;
@@ -572,4 +583,29 @@ input.disabled-input:hover {
 
 .prediction-fade-out {
 	animation: fadeOutNoTransform 0.3s forwards;
+}
+
+@media (max-width: 768px) {
+	body {
+		overflow-y: auto;
+	}
+	.container-main {
+		padding-bottom: 100px;
+	}
+	.pokemon-inputs {
+		flex-direction: column;
+		gap: 20px;
+	}
+	.pokemon-boxes {
+		flex-direction: column;
+		gap: 30px;
+	}
+	.outer-box {
+		width: 90%;
+		max-width: 400px;
+		min-width: 300px;
+		height: auto;
+		aspect-ratio: 0.875;
+		margin: 20px auto;
+	}
 }

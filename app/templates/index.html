@@ -6,8 +6,13 @@ Created by: mahmedmo -->
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Poké Sight</title>
-		<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/poke_sight_icon.png') }}" />
+		<link
+			rel="icon"
+			type="image/png"
+			href="{{ url_for('static', filename='assets/poke_sight_icon.png') }}"
+		/>
 		<link
 			rel="stylesheet"
 			href="{{ url_for('static', filename='src/styles.css') }}"
@@ -19,7 +24,7 @@ Created by: mahmedmo -->
 		<script src="https://unpkg.com/htmx.org@1.9.2"></script>
 	</head>
 	<body>
-		<video autoplay muted loop id="bgVideo">
+		<video autoplay muted loop playsinline webkit-playsinline id="bgVideo">
 			<source
 				src="{{ url_for('static', filename='assets/background.mp4') }}"
 				type="video/mp4"
@@ -41,12 +46,14 @@ Created by: mahmedmo -->
 					</p>
 				</div>
 				<div class="predict-info-container">
-					<img
-						src="{{ url_for('static', filename='assets/question_icon.png') }}"
-						alt="?"
-						class="predict-info-icon"
-					/>
-					<span class="predict-info-text">How we predict</span>
+					<div class="predict-info-trigger">
+						<img
+							src="{{ url_for('static', filename='assets/question_icon.png') }}"
+							alt="?"
+							class="predict-info-icon"
+						/>
+						<span class="predict-info-text">How we predict</span>
+					</div>
 					<div class="predict-info-card">
 						<img
 							src="{{ url_for('static', filename='assets/predict_metrics.png') }}"
@@ -65,7 +72,7 @@ Created by: mahmedmo -->
 					id="pokemon1"
 					name="pokemon1"
 					placeholder="First Pokémon"
-					onkeyup="validatePokemonInput(1)"
+					oninput="validatePokemonInput(1)"
 					required
 				/>
 				<input
@@ -73,7 +80,7 @@ Created by: mahmedmo -->
 					id="pokemon2"
 					name="pokemon2"
 					placeholder="Second Pokémon"
-					onkeyup="validatePokemonInput(2)"
+					oninput="validatePokemonInput(2)"
 					required
 				/>
 			</div>
