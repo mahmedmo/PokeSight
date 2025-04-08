@@ -1,0 +1,132 @@
+<!-- Filename: index.html
+Created on: Mon Apr 7th, 2025
+Created by: mahmedmo -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Poké Sight</title>
+		<link rel="icon" type="image/png" href="{{ url_for('static', filename='assets/poke_sight_icon.png') }}" />
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='src/styles.css') }}"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap"
+		/>
+		<script src="https://unpkg.com/htmx.org@1.9.2"></script>
+	</head>
+	<body>
+		<video autoplay muted loop id="bgVideo">
+			<source
+				src="{{ url_for('static', filename='assets/background.mp4') }}"
+				type="video/mp4"
+			/>
+			Your browser does not support the video tag.
+		</video>
+		<div class="container-main">
+			<div class="header-container">
+				<img
+					class="header-icon"
+					src="{{ url_for('static', filename='assets/poke_sight_icon.png') }}"
+					alt="Poké Sight Icon"
+				/>
+				<div class="header-texts">
+					<h1 class="header-text">Poké Sight</h1>
+					<p class="header-subtext">Your Pokémon matchup clairvoyant.</p>
+					<p class="header-instr">
+						Enter the names of two Pokémon to predict the outcome of a battle.
+					</p>
+				</div>
+				<div class="predict-info-container">
+					<img
+						src="{{ url_for('static', filename='assets/question_icon.png') }}"
+						alt="?"
+						class="predict-info-icon"
+					/>
+					<span class="predict-info-text">How we predict</span>
+					<div class="predict-info-card">
+						<img
+							src="{{ url_for('static', filename='assets/predict_metrics.png') }}"
+							alt="Prediction Metrics"
+						/>
+						<p>
+							Predictions are derived from a weighted analysis of key Pokémon
+							stats.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="pokemon-inputs">
+				<input
+					type="text"
+					id="pokemon1"
+					name="pokemon1"
+					placeholder="First Pokémon"
+					onkeyup="validatePokemonInput(1)"
+					required
+				/>
+				<input
+					type="text"
+					id="pokemon2"
+					name="pokemon2"
+					placeholder="Second Pokémon"
+					onkeyup="validatePokemonInput(2)"
+					required
+				/>
+			</div>
+			<div class="pokemon-boxes">
+				<div class="outer-box" id="box1">
+					<div class="inner-box" id="inner-box1">
+						<span class="question-mark" id="qm1">?</span>
+					</div>
+				</div>
+				<div class="outer-box" id="box2">
+					<div class="inner-box" id="inner-box2">
+						<span class="question-mark" id="qm2">?</span>
+					</div>
+				</div>
+			</div>
+			<div id="result-text"></div>
+			<div class="submit-container">
+				<button
+					class="submit-btn btn-disabled"
+					id="predict-btn"
+					onclick="handlePredictClick()"
+					disabled
+				>
+					FIGHT!
+				</button>
+			</div>
+			<div id="clear-container" style="display: none">
+				<button id="clear-btn" class="submit-btn" onclick="handleClear()">
+					Clear
+				</button>
+			</div>
+			<div id="result-section"></div>
+			<div id="fight-overlay">
+				<div class="fight-text">FIGHT!</div>
+				<div class="pokeball" style="top: 20%; left: 10%"></div>
+				<div
+					class="pokeball"
+					style="top: 20%; right: 10%; animation-delay: 0.5s"
+				></div>
+				<div
+					class="pokeball"
+					style="bottom: 20%; left: 15%; animation-delay: 0.25s"
+				></div>
+				<div
+					class="pokeball"
+					style="bottom: 20%; right: 15%; animation-delay: 0.75s"
+				></div>
+			</div>
+		</div>
+		<audio
+			id="fight-sound"
+			src="{{ url_for('static', filename='assets/fight_bell.mp3') }}"
+		></audio>
+		<script src="{{ url_for('static', filename='src/main.js') }}"></script>
+	</body>
+</html>

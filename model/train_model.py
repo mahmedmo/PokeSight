@@ -1,3 +1,7 @@
+# Filename: train_model.py
+# Created on: Mon Apr 7th, 2025
+# Created by: wzhengy
+
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
