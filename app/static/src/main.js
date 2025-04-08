@@ -5,6 +5,34 @@
 let validPoke1 = false;
 let validPoke2 = false;
 
+document.addEventListener('DOMContentLoaded', function () {
+    const triggers = document.querySelectorAll('.predict-info-trigger');
+
+    triggers.forEach(trigger => {
+        const card = trigger.nextElementSibling;
+        if (!card) return;
+
+        trigger.addEventListener('click', function (event) {
+            event.stopPropagation();
+            if (card.style.opacity === '1') {
+                card.style.opacity = '0';
+                card.style.visibility = 'hidden';
+            } else {
+                card.style.opacity = '1';
+                card.style.visibility = 'visible';
+            }
+        });
+    });
+
+    document.addEventListener('click', function () {
+        const cards = document.querySelectorAll('.predict-info-card');
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.visibility = 'hidden';
+        });
+    });
+});
+
 function revertPokemonBox(num) {
     const innerBox = document.getElementById("inner-box" + num);
     const img = innerBox.querySelector("img");
@@ -205,7 +233,7 @@ async function handleClear() {
 
     fadeOutPokemonBox(1);
     fadeOutPokemonBox(2);
-    
+
     resultSection.innerHTML = "";
     input1.value = "";
     input2.value = "";
@@ -238,7 +266,7 @@ async function handleClear() {
     } else {
         clearContainer.style.display = "none";
     }
-    
+
     validPoke1 = false;
     validPoke2 = false;
     updatePredictButton();
