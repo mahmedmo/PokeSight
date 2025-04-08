@@ -86,7 +86,7 @@ input.disabled-input:hover {
 
 .predict-info-card {
 	position: absolute;
-	bottom: 125%;
+	top: 125%;
 	left: 50%;
 	font-style: italic;
 	transform: translateX(-50%);
@@ -101,7 +101,7 @@ input.disabled-input:hover {
 	visibility: hidden;
 	transition: opacity 0.3s ease, visibility 0.3s ease;
 	z-index: 10000;
-	max-width: 220px;
+	max-width: 400px;
 	font-family: "Monsteratt", sans-serif;
 	font-size: 0.8rem;
 	color: #000;
