@@ -15,7 +15,6 @@ function scrollToTopDesktop() {
 
 window.addEventListener('resize', debounce(scrollToTopDesktop, 300));
 
-
 function showSpinner() {
     loadingCount++;
     document.getElementById("spinner").style.display = "block";

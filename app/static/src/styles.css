@@ -7,6 +7,13 @@ Created by: mahmedmo */
 	src: url("/static/assets/pokemon_classic.ttf") format("truetype");
 }
 
+* {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
 html {
 	transform: scale(1.1);
 	transform-origin: top center;
@@ -279,6 +286,7 @@ input.disabled-input:hover {
 }
 
 .pokemon-inputs {
+	transform: scale(1.1);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -401,7 +409,7 @@ input.disabled-input:hover {
 
 .submit-btn {
 	padding: 15px 30px;
-	font-size: 0.9rem;
+	font-size: 1.1rem;
 	border: none;
 	border-radius: 30px;
 	background-color: #e60012;
@@ -416,19 +424,20 @@ input.disabled-input:hover {
 }
 
 #clear-container {
-	margin-top: 10px;
 	display: none;
 }
 
 #clear-btn {
 	padding: 10px 20px;
-	font-size: 0.9rem;
-	font-family: "Montserrat", sans-serif;
+	font-size: 1.1rem;
+	font-family: "PokemonClassic", Arial, sans-serif;
 	border: none;
 	border-radius: 20px;
 	background-color: #555;
 	color: #fff;
 	cursor: pointer;
+	text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
+		2px 2px 0 #000;
 	transition: background-color 0.3s;
 }
 
@@ -614,10 +623,60 @@ input.disabled-input:hover {
 	animation: fadeOutNoTransform 0.3s forwards;
 }
 
+.github-link {
+	position: fixed;
+	top: calc(20px / 1.1);
+	right: calc(20px / 1.1);
+	z-index: 0;
+	display: inline-block;
+}
+
+.github-link::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50px;
+	height: 50px;
+	background-color: white;
+	border-radius: 50%;
+	z-index: -1;
+}
+
+.github-link img {
+	width: 40px;
+	height: 40px;
+	display: block;
+}
+
 @media (min-width: 769px) {
 	#bgVideo {
 		clip-path: inset(0 0 10% 0);
 		object-position: top;
+	}
+	.github-link {
+		position: absolute;
+		top: 1.5%;
+		left: 89%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 50px;
+		height: 50px;
+	}
+}
+
+@media (min-width: 1150px) {
+	.github-link {
+		position: absolute;
+		top: 1.5%;
+		left: 91%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 50px;
+		height: 50px;
 	}
 }
 
