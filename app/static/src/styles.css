@@ -618,7 +618,6 @@ input.disabled-input:hover {
 
 @media (max-width: 768px) {
 	body {
-		overflow-x: hidden;
 		overflow-y: auto;
 	}
 	.container-main {
