@@ -21,8 +21,8 @@ html {
 
 html,
 body {
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	height: 100vh;
 	padding-top: 0.4%;
 	margin: 0;
 }
@@ -112,7 +112,7 @@ input.disabled-input:hover {
 	opacity: 0;
 	visibility: hidden;
 	transition: opacity 0.3s ease, visibility 0.3s ease;
-	z-index: 10000;
+	z-index: 10001;
 	max-width: 400px;
 	font-family: "Monsteratt", sans-serif;
 	font-size: 0.8rem;
