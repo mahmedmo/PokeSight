@@ -1,6 +1,5 @@
 Flask
 Flask-Caching
-urllib.parse
 redis
 python-dotenv
 pandas
