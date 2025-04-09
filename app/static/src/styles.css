@@ -693,7 +693,8 @@ input.disabled-input:hover {
 }
 
 .footer-trademark {
-	width: 100%;
+	position: relative;
+	bottom: 7%;
 	text-align: center;
 	font-size: 1rem;
 	color: #fff;
