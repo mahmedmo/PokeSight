@@ -4,6 +4,7 @@
 
 import pandas as pd
 
+
 def get_pokemon_features(name, prefix, df):
     row = df[df["Name"].str.lower() == name.lower()]
     if row.empty:
@@ -26,5 +27,17 @@ def get_pokemon_features(name, prefix, df):
 
 
 def get_image_url(name):
-    formatted_name = name.strip().lower().replace(" ", "-")
+    words = name.strip().split()
+
+    if len(words) >= 2 and words[0].lower() == "mega":
+        base_name = words[1].lower()
+
+        if len(words) > 2:
+            extra = "-".join(word.lower() for word in words[2:])
+            formatted_name = f"{base_name}-mega-{extra}"
+        else:
+            formatted_name = f"{base_name}-mega"
+    else:
+        formatted_name = name.strip().lower().replace(" ", "-")
+    print("printing: " + formatted_name)
     return f"https://img.pokemondb.net/artwork/avif/{formatted_name}.avif"

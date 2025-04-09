@@ -11,9 +11,11 @@ from app.data_cache import get_pokemon_df
 bp = Blueprint("main", __name__)
 pokemon_df = get_pokemon_df()
 
+
 @bp.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
+
 
 @bp.route("/suggest", methods=["GET"])
 def suggest():
@@ -21,20 +23,21 @@ def suggest():
     suggestions = []
     if query:
         all_names = pokemon_df["Name"].tolist()
-        suggestions = [name for name in all_names if query in name.lower() and " " not in name.lower()]
+        suggestions = [name for name in all_names if query in name.lower()]
         suggestions = suggestions[:5]
     return jsonify({"suggestions": suggestions})
+
 
 @bp.route("/predict", methods=["POST"])
 def predict():
     p1_name = request.form["pokemon1"].strip().lower()
     p2_name = request.form["pokemon2"].strip().lower()
-    
+
     cache_key = f"prediction:{p1_name}:{p2_name}"
     cached = cache.get(cache_key)
     if cached is not None:
         return cached
-    
+
     cache_key = f"prediction:{p1_name}:{p2_name}"
     cached_prediction = cache.get(cache_key)
     if cached_prediction is not None:
@@ -79,14 +82,14 @@ def predict():
 def get_pokemon_image():
     name = request.args.get("name", "").strip()
     if not name:
-        return ('', 204)
-        
-    valid_names = pokemon_df["Name"].tolist()
-    if name.capitalize() not in valid_names:
-        return ('', 204)
-        
+        return ("", 204)
+
+    valid_names = [n.lower() for n in pokemon_df["Name"].tolist()]
+    if name.lower() not in valid_names:
+        return ("", 204)
+
     image_url = get_image_url(name)
     if not image_url:
-        return ('', 204)
-        
+        return ("", 204)
+
     return jsonify({"image_url": image_url})
