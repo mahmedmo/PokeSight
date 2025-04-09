@@ -21,10 +21,10 @@ html {
 
 html,
 body {
-	width: 100%;
-	height: 100%;
-	padding-top: 0.4%;
+	width: 100vw;
+	height: 100vh;
 	margin: 0;
+	padding: 0;
 }
 
 body {
@@ -40,8 +40,8 @@ body {
 	top: 0;
 	left: 0;
 	bottom: 10%;
-	width: 100%;
-	height: 100%;
+	width: 100vw;
+	height: 100vh;
 	object-fit: cover;
 	z-index: -2;
 	pointer-events: none;
@@ -277,12 +277,12 @@ input.disabled-input:hover {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin: 0 auto;
+	justify-content: start; /* Center vertically if needed */
+	width: 100vw;
+	height: 100vh;
 	padding: 20px;
-	width: 90%;
-	max-width: 1200px;
-	position: relative;
-	z-index: 1;
+	box-sizing: border-box;
+	overflow: auto; /* In case content overflows, allow scrolling */
 }
 
 .pokemon-inputs {
@@ -693,8 +693,6 @@ input.disabled-input:hover {
 }
 
 .footer-trademark {
-	position: fixed;
-	bottom: 2%;
 	width: 100%;
 	text-align: center;
 	font-size: 1rem;
@@ -755,7 +753,6 @@ input.disabled-input:hover {
 
 	.pokemon-inputs {
 		flex-direction: column;
-		transform: scale(1.15);
 		gap: 20px;
 	}
 
@@ -821,5 +818,30 @@ input.disabled-input:hover {
 	}
 	.footer-trademark {
 		display: none;
+	}
+	.input-group {
+		z-index: auto;
+		position: relative;
+	}
+
+	.input-group:nth-of-type(1) {
+		z-index: 101;
+	}
+
+	.input-group:nth-of-type(2) {
+		z-index: 100;
+	}
+
+	#suggestions1,
+	#suggestions2 {
+		position: absolute;
+	}
+
+	#suggestions1 {
+		z-index: 102;
+	}
+
+	#suggestions2 {
+		z-index: 1;
 	}
 }
