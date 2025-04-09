@@ -7,6 +7,15 @@ let validPoke2 = false;
 let loadingCount = 0;
 let abortControllerMap = {};
 
+function scrollToTopDesktop() {
+    if (window.innerWidth >= 769) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+window.addEventListener('resize', debounce(scrollToTopDesktop, 300));
+
+
 function showSpinner() {
     loadingCount++;
     document.getElementById("spinner").style.display = "block";
@@ -29,6 +38,7 @@ function debounce(fn, delay) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    scrollToTopDesktop();
     const predictBtn = document.getElementById("predict-btn");
     predictBtn.addEventListener("click", handlePredictClick);
 
@@ -194,11 +204,11 @@ function updatePredictButton() {
 
 async function handlePredictClick() {
     const predictBtn = document.getElementById("predict-btn");
-    
+
     predictBtn.removeEventListener("click", handlePredictClick);
-    
+
     if (predictBtn.disabled) return;
-    
+
     const input1 = document.getElementById("pokemon1");
     const input2 = document.getElementById("pokemon2");
     input1.disabled = true;
@@ -218,6 +228,13 @@ async function handlePredictClick() {
     const fightOverlay = document.getElementById("fight-overlay");
     fightOverlay.style.display = "flex";
     fightOverlay.classList.add("popup");
+
+    if (window.innerWidth < 769) {
+        const submitContainer = document.querySelector('.submit-container');
+        if (submitContainer) {
+            submitContainer.style.display = 'none';
+        }
+    }
 
     const fightText = document.querySelector("#fight-overlay .fight-text");
     if (fightText) {
@@ -252,6 +269,12 @@ async function handlePredictClick() {
         if (fightText) {
             fightText.classList.remove("pulse-animation");
         }
+        if (window.innerWidth < 769) {
+            const submitContainer = document.querySelector('.submit-container');
+            if (submitContainer) {
+                submitContainer.style.display = 'flex';
+            }
+        }
     }, 300);
 
     document.getElementById("clear-container").style.display = "block";
@@ -260,6 +283,15 @@ async function handlePredictClick() {
     validPoke1 = false;
     validPoke2 = false;
     updatePredictButton();
+
+    if (window.innerWidth < 769) {
+        const firstInput = document.getElementById("pokemon1");
+        if (firstInput) {
+            const offset = 20;
+            const topPosition = firstInput.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top: topPosition, behavior: "smooth" });
+        }
+    }
 }
 
 async function submitPrediction() {
@@ -357,12 +389,21 @@ async function handleClear() {
     const predictBtn = document.getElementById("predict-btn");
     predictBtn.disabled = true;
     predictBtn.classList.add("btn-disabled");
-    
+
     predictBtn.addEventListener("click", handlePredictClick);
-    
+
     validPoke1 = false;
     validPoke2 = false;
     updatePredictButton();
+
+    if (window.innerWidth < 769) {
+        const firstInput = document.getElementById("pokemon1");
+        if (firstInput) {
+            const offset = 20;
+            const topPosition = firstInput.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top: topPosition, behavior: "smooth" });
+        }
+    }
 }
 
 function renderResult(data) {
