@@ -48,7 +48,25 @@ document.addEventListener('DOMContentLoaded', function () {
             card.style.visibility = 'hidden';
         });
     });
+
+    setInterval(() => {
+        checkAndLoadImage(1);
+        checkAndLoadImage(2);
+    }, 1000);
 });
+
+function checkAndLoadImage(num) {
+    const inputField = document.getElementById("pokemon" + num);
+    const innerBox = document.getElementById("inner-box" + num);
+    const inputVal = inputField.value.trim();
+
+    if (inputVal) {
+        const img = innerBox.querySelector("img");
+        if (!img) {
+            validatePokemonInput(num);
+        }
+    }
+}
 
 function revertPokemonBox(num) {
     const innerBox = document.getElementById("inner-box" + num);
