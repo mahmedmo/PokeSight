@@ -6,10 +6,10 @@ from flask import Blueprint, render_template, request, jsonify
 import pandas as pd
 from model.poke_utils import get_image_url
 from app import cache
+from app.data_cache import get_pokemon_df
 
 bp = Blueprint("main", __name__)
-pokemon_df = pd.read_csv("data/pokemon.csv")
-
+pokemon_df = get_pokemon_df()
 
 @bp.route("/", methods=["GET"])
 def index():
@@ -20,7 +20,12 @@ def index():
 def predict():
     p1_name = request.form["pokemon1"].strip().lower()
     p2_name = request.form["pokemon2"].strip().lower()
-
+    
+    cache_key = f"prediction:{p1_name}:{p2_name}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
+    
     cache_key = f"prediction:{p1_name}:{p2_name}"
     cached_prediction = cache.get(cache_key)
     if cached_prediction is not None:

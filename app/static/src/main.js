@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const debounceValidatePoke1 = debounce(() => validatePokemonInput(1), 300);
     const debounceValidatePoke2 = debounce(() => validatePokemonInput(2), 300);
 
-    pokemon1Input.addEventListener('input', debounceValidatePoke1);
-    pokemon2Input.addEventListener('input', debounceValidatePoke2);
+    pokemon1Input.addEventListener('blur', debounceValidatePoke1);
+    pokemon2Input.addEventListener('blur', debounceValidatePoke2);
 
     const triggers = document.querySelectorAll('.predict-info-trigger');
 
@@ -60,11 +60,14 @@ function checkAndLoadImage(num) {
     const innerBox = document.getElementById("inner-box" + num);
     const inputVal = inputField.value.trim();
 
-    if (inputVal) {
-        const img = innerBox.querySelector("img");
-        if (!img) {
-            validatePokemonInput(num);
+    if (!inputField.dataset.lastValue || inputField.dataset.lastValue !== inputVal) {
+        if (inputVal) {
+            const img = innerBox.querySelector("img");
+            if (!img) {
+                validatePokemonInput(num);
+            }
         }
+        inputField.dataset.lastValue = inputVal;
     }
 }
 
@@ -96,18 +99,31 @@ function fadeOutPokemonBox(num) {
     innerBox.innerHTML = `<span class="question-mark" id="qm${num}">?</span>`;
 }
 
+let abortControllerMap = {};
+
+
 async function validatePokemonInput(num) {
-    const inputVal = document.getElementById("pokemon" + num).value.trim();
+    const inputField = document.getElementById("pokemon" + num);
+    const inputVal = inputField.value.trim();
+
     if (!inputVal) {
         revertPokemonBox(num);
         num === 1 ? (validPoke1 = false) : (validPoke2 = false);
         updatePredictButton();
         return;
     }
+
+    // Abort any previous request for this input
+    if (abortControllerMap[num]) {
+        abortControllerMap[num].abort();
+    }
+    const controller = new AbortController();
+    abortControllerMap[num] = controller;
+
     try {
-        const response = await fetch(
-            `/get_pokemon_image?name=${encodeURIComponent(inputVal)}`
-        );
+        const response = await fetch(`/get_pokemon_image?name=${encodeURIComponent(inputVal)}`, {
+            signal: controller.signal
+        });
         if (!response.ok) throw new Error("Not OK");
         const data = await response.json();
         if (data.error) {
@@ -118,8 +134,10 @@ async function validatePokemonInput(num) {
             num === 1 ? (validPoke1 = true) : (validPoke2 = true);
         }
     } catch (err) {
-        revertPokemonBox(num);
-        num === 1 ? (validPoke1 = false) : (validPoke2 = false);
+        if (err.name !== 'AbortError') {
+            revertPokemonBox(num);
+            num === 1 ? (validPoke1 = false) : (validPoke2 = false);
+        }
     }
     updatePredictButton();
 }
@@ -131,14 +149,14 @@ function displayPokemonImage(num, imageUrl) {
     if (existingImg && existingImg.src === imageUrl) {
         return;
     }
-    
+
     innerBox.innerHTML = "";
     const img = document.createElement("img");
     img.src = imageUrl;
     img.classList.add("popin-animation");
     img.style.opacity = 0;
     innerBox.appendChild(img);
-    
+
     setTimeout(() => {
         img.style.opacity = 1;
     }, 50);
