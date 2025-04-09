@@ -490,7 +490,7 @@ input.disabled-input:hover {
 	width: 100%;
 	height: 100%;
 	background: rgba(255, 0, 0, 1);
-	z-index: 9999;
+	z-index: 99999;
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
@@ -624,11 +624,13 @@ input.disabled-input:hover {
 }
 
 .github-link {
-	position: fixed;
+	position: absolute;
 	top: calc(20px / 1.1);
 	right: calc(20px / 1.1);
 	z-index: 0;
 	display: inline-block;
+	transform: scale(0.909);
+	transform-origin: top right;
 }
 
 .github-link::before {
@@ -703,6 +705,10 @@ input.disabled-input:hover {
 		gap: 20px;
 	}
 
+	.pokemon-inputs input {
+		font-size: 16px;
+	}
+
 	.pokemon-boxes {
 		flex-direction: column;
 		gap: 30px;
@@ -754,5 +760,9 @@ input.disabled-input:hover {
 	.submit-btn {
 		padding: 15px 30px;
 		font-size: 1.2rem;
+	}
+	
+	.fight-text {
+		font-size: 5rem;
 	}
 }
