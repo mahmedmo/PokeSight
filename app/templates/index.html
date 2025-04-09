@@ -6,7 +6,10 @@ Created by: mahmedmo -->
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+		/>
 		<title>Poké Sight</title>
 		<link
 			rel="icon"
@@ -105,15 +108,11 @@ Created by: mahmedmo -->
 						<span class="question-mark" id="qm2">?</span>
 					</div>
 				</div>
+				<div id="spinner"></div>
 			</div>
 			<div id="result-text"></div>
 			<div class="submit-container">
-				<button
-					class="submit-btn btn-disabled"
-					id="predict-btn"
-					onclick="handlePredictClick()"
-					disabled
-				>
+				<button class="submit-btn btn-disabled" id="predict-btn" disabled>
 					FIGHT!
 				</button>
 			</div>

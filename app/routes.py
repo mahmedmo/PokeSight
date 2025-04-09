@@ -70,14 +70,14 @@ def predict():
 def get_pokemon_image():
     name = request.args.get("name", "").strip()
     if not name:
-        return jsonify({"error": "No Pokémon name provided."}), 400
-
+        return ('', 204)
+        
     valid_names = pokemon_df["Name"].tolist()
     if name.capitalize() not in valid_names:
-        return jsonify({"error": "Invalid Pokémon name."}), 404
-
+        return ('', 204)
+        
     image_url = get_image_url(name)
     if not image_url:
-        return jsonify({"error": "Could not retrieve image."}), 404
-
+        return ('', 204)
+        
     return jsonify({"image_url": image_url})

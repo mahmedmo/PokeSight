@@ -8,7 +8,8 @@ Created by: mahmedmo */
 }
 
 html {
-	zoom: 1.1;
+	transform: scale(1.1);
+	transform-origin: top center;
 }
 
 html,
@@ -31,7 +32,7 @@ body {
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, -55%);
 	min-width: 100%;
 	min-height: 100%;
 	width: auto;
@@ -365,6 +366,25 @@ input.disabled-input:hover {
 	line-height: 1;
 	padding: 0.2em;
 	transition: opacity 0.3s ease-in;
+}
+
+#spinner {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 40px;
+	height: 40px;
+	border: 4px solid rgba(255, 255, 255, 0.3);
+	border-top: 4px solid white;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+	z-index: 1000;
+}
+
+@keyframes spin {
+	0% { transform: translate(-50%, -50%) rotate(0deg); }
+	100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
 .submit-container {

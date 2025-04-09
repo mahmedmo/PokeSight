@@ -4,6 +4,21 @@
 
 let validPoke1 = false;
 let validPoke2 = false;
+let loadingCount = 0;
+let abortControllerMap = {};
+
+function showSpinner() {
+    loadingCount++;
+    document.getElementById("spinner").style.display = "block";
+}
+
+function hideSpinner() {
+    loadingCount--;
+    if (loadingCount <= 0) {
+        loadingCount = 0;
+        document.getElementById("spinner").style.display = "none";
+    }
+}
 
 function debounce(fn, delay) {
     let timer;
@@ -14,6 +29,9 @@ function debounce(fn, delay) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    const predictBtn = document.getElementById("predict-btn");
+    predictBtn.addEventListener("click", handlePredictClick);
+
     const pokemon1Input = document.getElementById('pokemon1');
     const pokemon2Input = document.getElementById('pokemon2');
 
@@ -99,9 +117,6 @@ function fadeOutPokemonBox(num) {
     innerBox.innerHTML = `<span class="question-mark" id="qm${num}">?</span>`;
 }
 
-let abortControllerMap = {};
-
-
 async function validatePokemonInput(num) {
     const inputField = document.getElementById("pokemon" + num);
     const inputVal = inputField.value.trim();
@@ -113,12 +128,13 @@ async function validatePokemonInput(num) {
         return;
     }
 
-    // Abort any previous request for this input
     if (abortControllerMap[num]) {
         abortControllerMap[num].abort();
     }
     const controller = new AbortController();
     abortControllerMap[num] = controller;
+
+    showSpinner();
 
     try {
         const response = await fetch(`/get_pokemon_image?name=${encodeURIComponent(inputVal)}`, {
@@ -138,6 +154,8 @@ async function validatePokemonInput(num) {
             revertPokemonBox(num);
             num === 1 ? (validPoke1 = false) : (validPoke2 = false);
         }
+    } finally {
+        hideSpinner();
     }
     updatePredictButton();
 }
@@ -176,7 +194,11 @@ function updatePredictButton() {
 
 async function handlePredictClick() {
     const predictBtn = document.getElementById("predict-btn");
+    
+    predictBtn.removeEventListener("click", handlePredictClick);
+    
     if (predictBtn.disabled) return;
+    
     const input1 = document.getElementById("pokemon1");
     const input2 = document.getElementById("pokemon2");
     input1.disabled = true;
@@ -188,9 +210,7 @@ async function handlePredictClick() {
     predictBtn.disabled = true;
     predictBtn.classList.add("btn-disabled");
 
-    const existingPrediction = document.querySelector(
-        ".pokemon-boxes .prediction-container"
-    );
+    const existingPrediction = document.querySelector(".pokemon-boxes .prediction-container");
     if (existingPrediction) {
         existingPrediction.remove();
     }
@@ -236,12 +256,17 @@ async function handlePredictClick() {
 
     document.getElementById("clear-container").style.display = "block";
     predictBtn.blur();
+
+    validPoke1 = false;
+    validPoke2 = false;
+    updatePredictButton();
 }
 
 async function submitPrediction() {
     const p1 = document.getElementById("pokemon1").value.trim();
     const p2 = document.getElementById("pokemon2").value.trim();
     const formData = new FormData();
+
     formData.append("pokemon1", p1);
     formData.append("pokemon2", p2);
     const response = await fetch("/predict", {
@@ -256,7 +281,9 @@ async function submitPrediction() {
     for (let i = 0; i < scripts.length; i++) {
         eval(scripts[i].textContent);
     }
-
+    const predictBtn = document.getElementById("predict-btn");
+    predictBtn.disabled = true;
+    predictBtn.classList.add("btn-disabled");
     return resultHTML;
 }
 
@@ -327,6 +354,12 @@ async function handleClear() {
         clearContainer.style.display = "none";
     }
 
+    const predictBtn = document.getElementById("predict-btn");
+    predictBtn.disabled = true;
+    predictBtn.classList.add("btn-disabled");
+    
+    predictBtn.addEventListener("click", handlePredictClick);
+    
     validPoke1 = false;
     validPoke2 = false;
     updatePredictButton();
