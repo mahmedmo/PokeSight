@@ -5,7 +5,24 @@
 let validPoke1 = false;
 let validPoke2 = false;
 
+function debounce(fn, delay) {
+    let timer;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+}
+
 document.addEventListener('DOMContentLoaded', function () {
+    const pokemon1Input = document.getElementById('pokemon1');
+    const pokemon2Input = document.getElementById('pokemon2');
+
+    const debounceValidatePoke1 = debounce(() => validatePokemonInput(1), 300);
+    const debounceValidatePoke2 = debounce(() => validatePokemonInput(2), 300);
+
+    pokemon1Input.addEventListener('input', debounceValidatePoke1);
+    pokemon2Input.addEventListener('input', debounceValidatePoke2);
+
     const triggers = document.querySelectorAll('.predict-info-trigger');
 
     triggers.forEach(trigger => {
@@ -91,12 +108,19 @@ async function validatePokemonInput(num) {
 
 function displayPokemonImage(num, imageUrl) {
     const innerBox = document.getElementById("inner-box" + num);
+
+    const existingImg = innerBox.querySelector("img");
+    if (existingImg && existingImg.src === imageUrl) {
+        return;
+    }
+    
     innerBox.innerHTML = "";
     const img = document.createElement("img");
     img.src = imageUrl;
     img.classList.add("popin-animation");
     img.style.opacity = 0;
     innerBox.appendChild(img);
+    
     setTimeout(() => {
         img.style.opacity = 1;
     }, 50);
