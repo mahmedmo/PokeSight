@@ -80,22 +80,28 @@ Created by: mahmedmo -->
 				</div>
 			</div>
 			<div class="pokemon-inputs">
-				<input
-					type="text"
-					id="pokemon1"
-					name="pokemon1"
-					placeholder="First Pokémon"
-					oninput="validatePokemonInput(1)"
-					required
-				/>
-				<input
-					type="text"
-					id="pokemon2"
-					name="pokemon2"
-					placeholder="Second Pokémon"
-					oninput="validatePokemonInput(2)"
-					required
-				/>
+				<div class="input-group">
+					<input
+						type="text"
+						id="pokemon1"
+						name="pokemon1"
+						placeholder="First Pokémon"
+						oninput="handleAutoSuggest(1)"
+						required
+					/>
+					<div class="suggestions-container" id="suggestions1"></div>
+				</div>
+				<div class="input-group">
+					<input
+						type="text"
+						id="pokemon2"
+						name="pokemon2"
+						placeholder="Second Pokémon"
+						oninput="handleAutoSuggest(2)"
+						required
+					/>
+					<div class="suggestions-container" id="suggestions2"></div>
+				</div>
 			</div>
 			<div class="pokemon-boxes" id="pokemon-box">
 				<div class="outer-box" id="box1">
@@ -139,8 +145,15 @@ Created by: mahmedmo -->
 				></div>
 			</div>
 		</div>
-		<a href="https://github.com/mahmedmo/PokeSight" target="_blank" class="github-link">
-			<img src="{{ url_for('static', filename='assets/github_icon.png') }}" alt="GitHub Repository">
+		<a
+			href="https://github.com/mahmedmo/PokeSight"
+			target="_blank"
+			class="github-link"
+		>
+			<img
+				src="{{ url_for('static', filename='assets/github_icon.png') }}"
+				alt="GitHub Repository"
+			/>
 		</a>
 		<audio
 			id="fight-sound"

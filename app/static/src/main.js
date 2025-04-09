@@ -36,8 +36,30 @@ function debounce(fn, delay) {
     };
 }
 
+document.querySelectorAll('.input-group input').forEach(input => {
+    input.addEventListener('blur', function () {
+        const suggestionsContainer = input.parentElement.querySelector('.suggestions-container');
+        setTimeout(() => {
+            suggestionsContainer.classList.remove('visible');
+        }, 300);
+    });
+    input.addEventListener('focus', function () {
+        const suggestionsContainer = input.parentElement.querySelector('.suggestions-container');
+        if (input.value.trim() !== "") {
+            suggestionsContainer.classList.add('visible');
+        }
+    });
+});;
+
 document.addEventListener('DOMContentLoaded', function () {
     scrollToTopDesktop();
+
+    const debouncedAutoSuggest1 = debounce(() => handleAutoSuggest(1), 400);
+    const debouncedAutoSuggest2 = debounce(() => handleAutoSuggest(2), 400);
+
+    document.getElementById("pokemon1").addEventListener("input", debouncedAutoSuggest1);
+    document.getElementById("pokemon2").addEventListener("input", debouncedAutoSuggest2);
+
     const predictBtn = document.getElementById("predict-btn");
     predictBtn.addEventListener("click", handlePredictClick);
 
@@ -124,6 +146,59 @@ function revertPokemonBox(num) {
 function fadeOutPokemonBox(num) {
     const innerBox = document.getElementById("inner-box" + num);
     innerBox.innerHTML = `<span class="question-mark" id="qm${num}">?</span>`;
+}
+
+async function handleAutoSuggest(num) {
+    const inputField = document.getElementById("pokemon" + num);
+    const suggestionsContainer = document.getElementById("suggestions" + num);
+    const query = inputField.value.trim();
+
+    if (!query) {
+        suggestionsContainer.classList.remove("visible");
+        return;
+    }
+
+    const newSuggestions = await fetchSuggestions(query);
+
+    const currentItems = Array.from(suggestionsContainer.querySelectorAll(".suggestion-item"))
+        .map(item => item.textContent);
+    if (JSON.stringify(currentItems) === JSON.stringify(newSuggestions)) {
+        suggestionsContainer.classList.add("visible");
+        return;
+    }
+
+    suggestionsContainer.classList.remove("visible");
+
+    setTimeout(() => {
+        suggestionsContainer.innerHTML = "";
+        if (newSuggestions.length > 0) {
+            newSuggestions.forEach(suggestion => {
+                const item = document.createElement("div");
+                item.textContent = suggestion;
+                item.classList.add("suggestion-item");
+                item.addEventListener("click", () => {
+                    inputField.value = suggestion;
+                    suggestionsContainer.innerHTML = "";
+                    suggestionsContainer.classList.remove("visible");
+                    validatePokemonInput(num);
+                });
+                suggestionsContainer.appendChild(item);
+            });
+            suggestionsContainer.classList.add("visible");
+        }
+    }, 250);
+}
+
+async function fetchSuggestions(query) {
+    try {
+        const response = await fetch(`/suggest?q=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error("Suggestion fetch failed");
+        const data = await response.json();
+        return data.suggestions;
+    } catch (err) {
+        console.error(err);
+        return [];
+    }
 }
 
 async function validatePokemonInput(num) {

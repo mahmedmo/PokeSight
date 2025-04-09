@@ -15,6 +15,15 @@ pokemon_df = get_pokemon_df()
 def index():
     return render_template("index.html")
 
+@bp.route("/suggest", methods=["GET"])
+def suggest():
+    query = request.args.get("q", "").strip().lower()
+    suggestions = []
+    if query:
+        all_names = pokemon_df["Name"].tolist()
+        suggestions = [name for name in all_names if query in name.lower() and " " not in name.lower()]
+        suggestions = suggestions[:5]
+    return jsonify({"suggestions": suggestions})
 
 @bp.route("/predict", methods=["POST"])
 def predict():

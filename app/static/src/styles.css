@@ -286,7 +286,6 @@ input.disabled-input:hover {
 }
 
 .pokemon-inputs {
-	transform: scale(1.1);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -314,6 +313,47 @@ input.disabled-input:hover {
 .pokemon-inputs input:disabled,
 .pokemon-inputs input.disabled-input {
 	filter: brightness(0.3);
+}
+
+.input-group {
+	position: relative;
+	display: inline-block;
+	z-index: 10000;
+}
+
+.suggestions-container {
+	position: absolute;
+	top: 100%;
+	left: 4%;
+	width: 90%;
+	border: 3px solid #111;
+	background-color: #333;
+	border: 3px solid #111;
+	background-color: #333;
+	max-height: 150px;
+	overflow-y: auto;
+	z-index: 99999;
+	font-family: "Monsteratt", sans-serif;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+
+	color: #fff;
+
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+}
+
+.suggestions-container.visible {
+	opacity: 1;
+}
+
+.suggestion-item {
+	padding: 8px;
+	cursor: pointer;
+}
+
+.suggestion-item:hover {
+	background-color: #555;
 }
 
 .btn-disabled {
@@ -761,7 +801,7 @@ input.disabled-input:hover {
 		padding: 15px 30px;
 		font-size: 1.2rem;
 	}
-	
+
 	.fight-text {
 		font-size: 5rem;
 	}
