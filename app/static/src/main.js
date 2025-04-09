@@ -284,10 +284,10 @@ async function handlePredictClick() {
     updatePredictButton();
 
     if (window.innerWidth < 769) {
-        const firstInput = document.getElementById("pokemon1");
+        const firstInput = document.getElementById("pokemon-box");
         if (firstInput) {
-            const offset = 20;
-            const topPosition = firstInput.getBoundingClientRect().top + window.scrollY - offset;
+            const offset = 2;
+            const topPosition = firstInput.getBoundingClientRect().top + window.scrollY + offset;
             window.scrollTo({ top: topPosition, behavior: "smooth" });
         }
     }
