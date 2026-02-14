@@ -1,4 +1,4 @@
-# 🔎  Poké Sight - Your Pokémon Matchup Clairvoyant! 🔮
+# 🔎  Poké Sight
 
 Ever wondered which Pokémon would triumph in an epic showdown? Poké Sight is your go-to web app for predicting Pokémon battles with mystical accuracy! Whether you're strategizing your next in-game move or settling a friendly debate, Poké Sight delivers insightful predictions that make Pokémon duels even more exciting.
 
